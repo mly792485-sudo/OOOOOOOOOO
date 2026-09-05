@@ -107,8 +107,8 @@ jobs:
 
       - name: Add iOS privacy descriptions
         run: |
-          /usr/libexec/PlistBuddy -c "Add :NSLocationWhenInUseUsageDescription string ÙØ­ØªØ§Ø¬ ÙÙÙØµÙÙ Ø¥ÙÙ ÙÙÙØ¹Ù ÙØªØ­Ø¯ÙØ¯ ÙÙØ§ÙÙØª Ø§ÙØµÙØ§Ø© ÙØ§ØªØ¬Ø§Ù Ø§ÙÙØ¨ÙØ© Ø¨Ø¯ÙØ©." ios/App/App/Info.plist || true
-          /usr/libexec/PlistBuddy -c "Add :NSLocationAlwaysAndWhenInUseUsageDescription string ÙØ­ØªØ§Ø¬ ÙÙÙØµÙÙ Ø¥ÙÙ ÙÙÙØ¹Ù ÙØªØ­Ø¯ÙØ¯ ÙÙØ§ÙÙØª Ø§ÙØµÙØ§Ø© Ø¨Ø¯ÙØ© ÙØªÙØ¨ÙÙØ§Øª Ø§ÙØ£Ø°Ø§Ù." ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Add :NSLocationWhenInUseUsageDescription string نحتاج للوصول إلى موقعك لتحديد مواقيت الصلاة واتجاه القبلة بدقة." ios/App/App/Info.plist || true
+          /usr/libexec/PlistBuddy -c "Add :NSLocationAlwaysAndWhenInUseUsageDescription string نحتاج للوصول إلى موقعك لتحديد مواقيت الصلاة بدقة وتنبيهات الأذان." ios/App/App/Info.plist || true
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist || true
 
       - name: Validate iOS assets
