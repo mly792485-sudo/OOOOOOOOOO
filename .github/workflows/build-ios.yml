@@ -1,1 +1,50 @@
+name: Build iOS IPA
 
+on:
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web app
+        run: npm run build
+
+      - name: Sync Capacitor iOS
+        run: npx cap sync ios
+
+      - name: Install CocoaPods
+        run: |
+          cd ios/App
+          pod install
+
+      - name: Build unsigned archive
+        run: |
+          xcodebuild archive \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "<LaTex>PWD/App.xcarchive" \             CODE_SIGNING_ALLOWED=NO \             CODE_SIGNING_REQUIRED=NO \             COMPILER_INDEX_STORE_ENABLE=NO        - name: Create unsigned IPA         run: |           mkdir -p Payload           APP_PATH=</LaTex>(find ios/App/App.xcarchive -type d -name "*.app" | head -1)
+          cp -R "$APP_PATH" Payload/App.app
+          zip -qry Noor-Al-Islam-unsigned.ipa Payload
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Noor-Al-Islam-unsigned-ipa
+          path: Noor-Al-Islam-unsigned.ipa
